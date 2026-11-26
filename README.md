@@ -34,9 +34,10 @@ Kontrollera IP-adresserna mot GitHubs dokumentation för Pages innan du lägger 
 
 ## Innan lansering
 
-- [ ] **Koppla formuläret till e-post.** GitHub Pages kan inte ta emot formulär. Använd en formulärtjänst
-      (eller ett eget skript) och lägg adressen i `data-endpoint` på `<form id="inlamning">` i `lamna-in.html`.
-      Tomt värde = visningsläge, inget skickas.
+- [ ] **Aktivera formuläret hos FormSubmit.** Inlämningar skickas via FormSubmit till adressen i `data-endpoint`
+      på `<form id="inlamning">` i `lamna-in.html` (tomt värde = visningsläge, inget skickas). Första inlämningen
+      ger ett mejl "Activate Form" till mottagaren – inget levereras förrän någon klickat på det. Tills dess får
+      kunden ett felmeddelande i stället för kvittensen.
 - [ ] Fyll i villkorssidan (alla gulmarkerade platshållare).
 - [ ] Lägg in bilder på verkstaden och teknikern under *Om oss* (`index.html`).
 - [ ] Lägg typsnitten (Inter, Archivo) på egen server i stället för Google Fonts, för GDPR.
