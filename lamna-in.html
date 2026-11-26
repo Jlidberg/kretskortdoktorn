@@ -81,8 +81,8 @@
     <h2 id="h-form">Inlämningsformulär</h2>
     <p class="lead">Fält med <span class="req">*</span> är obligatoriska. Det du skriver sparas bara i din egen webbläsare tills du skickar.</p>
 
-    <!-- data-endpoint: adress till skriptet/tjänsten som mejlar ärendet till [e-post] -->
-    <form id="inlamning" class="form" data-endpoint="https://formsubmit.co/ajax/info@marinservice.se" novalidate>
+    <!-- data-endpoint: mottagaren i mottagare/ (deploy/nginx.conf skickar /api/inlamning dit) -->
+    <form id="inlamning" class="form" data-endpoint="/api/inlamning" novalidate>
       <!-- Fälla för spambottar: ska alltid vara tom -->
       <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <fieldset>

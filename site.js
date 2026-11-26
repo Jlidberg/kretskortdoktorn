@@ -120,10 +120,6 @@
       const nr = caseNo();
       const data = new FormData(form);
       data.set('arendenummer', nr);
-      // Fält som formulärtjänsten (FormSubmit/Formspree) läser: ämnesrad, svarsadress, tabell-layout
-      data.set('_subject', `Ny inlämning ${nr} – Kretskortsdoktorn`);
-      data.set('_replyto', form.epost.value);
-      data.set('_template', 'table');
       files.forEach((f, i) => data.append('foto' + (i + 1), f.file, f.file.name));
 
       if (ENDPOINT) {
@@ -131,11 +127,11 @@
         sb.disabled = true; sb.textContent = 'Skickar…';
         try {
           const r = await fetch(ENDPOINT, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-          // FormSubmit svarar 200 även när formuläret inte är aktiverat – läs svaret.
+          // Mottagaren svarar { success: 'true' } när mejlet har gått iväg.
           const svar = await r.json().catch(() => ({}));
-          if (!r.ok || String(svar.success) !== 'true') throw new Error(svar.message || '');
+          if (!r.ok || String(svar.success) !== 'true') throw Object.assign(new Error(svar.message || ''), { franServern: true });
         } catch (err) {
-          errBox.textContent = 'Det gick inte att skicka just nu. Försök igen eller ring oss.';
+          errBox.textContent = (err.franServern && err.message ? err.message + ' ' : 'Det gick inte att skicka just nu. ') + 'Försök igen eller ring oss på 026-12 66 66.';
           sb.disabled = false; sb.textContent = 'Skicka in ärendet';
           return;
         }

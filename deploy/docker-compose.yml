@@ -1,0 +1,17 @@
+# Kretskortsdoktorn i CT 103 på destiny. Traefik skickar kretskortsdoktorn.se till 10.10.10.103:8090.
+#   cd /opt/kretskortsdoktorn/deploy && docker compose up -d --build
+name: kretskortsdoktorn
+services:
+  web:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+    volumes:
+      - ..:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [mottagare]
+  mottagare:
+    build: ../mottagare
+    restart: unless-stopped
+    env_file: .env
