@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kretskortsdoktorn.se/sitemap.xml
+Sitemap: https://www.kretskortsdoktorn.se/sitemap.xml
