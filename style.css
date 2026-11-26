@@ -273,3 +273,23 @@ input:focus,select:focus,textarea:focus{border-color:var(--copper);outline:none;
 }
 @media (max-width:600px){.brand img{height:52px}}
 @media (max-width:420px){.brand img{height:44px}}
+/* "En del av Marin Service" + ännu större logga */
+.brand{margin-right:0}
+.parent{display:flex;flex-direction:column;justify-content:center;margin-right:auto;padding-left:16px;border-left:1.5px solid #ffffff33;color:#C9D4E3;text-decoration:none;font-size:13px;line-height:1.25;white-space:nowrap}
+.parent b{color:#fff;font:700 16px/1.2 Archivo,Inter,sans-serif}
+.parent:hover b{color:#F3B676}
+.brand img{height:96px}
+.nav a{padding:10px 10px}
+@media (min-width:1600px){.brand img{height:108px}}
+@media (max-width:1400px){
+  .top .wrap{flex-wrap:wrap}
+  .menu-btn{display:inline-flex;align-items:center}
+  .nav{display:none;width:100%;flex-direction:column;align-items:stretch;padding:6px 0 12px}
+  .nav.open{display:flex}
+  .nav a{padding:13px 10px;font-size:17px}
+  .nav .btn{margin:8px 0 0}
+  .call{order:0}
+  .brand img{height:84px}
+}
+@media (max-width:700px){.parent{display:none}.brand{margin-right:auto}.brand img{height:60px}}
+@media (max-width:420px){.brand img{height:48px}}
