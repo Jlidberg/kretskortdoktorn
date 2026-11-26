@@ -293,3 +293,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--copper);outline:none;
 }
 @media (max-width:700px){.parent{display:none}.brand{margin-right:auto}.brand img{height:60px}}
 @media (max-width:420px){.brand img{height:48px}}
+/* Kort i stegrutor: samma luft som övriga kort */
+.steps li.card{padding:22px 24px}
+.steps li.card .num{margin-bottom:6px}
+/* Bilder under Om oss */
+.photo{margin:0;border-radius:var(--radius);overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.photo img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;display:block}
+.photo figcaption{padding:10px 14px;font-size:14px;color:var(--muted)}
