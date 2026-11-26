@@ -131,7 +131,9 @@
         sb.disabled = true; sb.textContent = 'Skickar…';
         try {
           const r = await fetch(ENDPOINT, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-          if (!r.ok) throw new Error();
+          // FormSubmit svarar 200 även när formuläret inte är aktiverat – läs svaret.
+          const svar = await r.json().catch(() => ({}));
+          if (!r.ok || String(svar.success) !== 'true') throw new Error(svar.message || '');
         } catch (err) {
           errBox.textContent = 'Det gick inte att skicka just nu. Försök igen eller ring oss.';
           sb.disabled = false; sb.textContent = 'Skicka in ärendet';
