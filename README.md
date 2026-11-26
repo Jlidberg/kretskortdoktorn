@@ -56,4 +56,4 @@ Loggen över skickade inlämningar: `docker compose logs mottagare`.
 
 ## Kontakt
 
-026-12 66 66 · info@marinservice.se · [marinservice.se](https://marinservice.se)
+026-12 66 66 · info@marinservice.se · [www.marinservice.se](https://www.marinservice.se)
