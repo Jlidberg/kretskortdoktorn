@@ -17,7 +17,7 @@
     for (const r of t.tBodies[0].rows) [...r.cells].forEach((c, i) => c.dataset.l = heads[i] || '');
   }
   // Besöksstatistik (Umami, utan cookies). Klistra in webbplatsens id från Umami-panelen; tomt = av.
-  const UMAMI_ID = '';
+  const UMAMI_ID = 'be64ceb8-f72e-4deb-a7a6-42425f04517b';
   if (UMAMI_ID) {
     const s = document.createElement('script');
     s.defer = true;
