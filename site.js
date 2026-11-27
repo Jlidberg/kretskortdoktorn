@@ -28,6 +28,7 @@
   }
   for (const a of document.querySelectorAll('a[href^="tel:"]')) a.dataset.umamiEvent = 'Ringer';
   for (const a of document.querySelectorAll('a[href^="mailto:"]')) a.dataset.umamiEvent = 'Mejlar';
+  for (const a of document.querySelectorAll('a[href^="lamna-in"],a[href^="/lamna-in"]')) a.dataset.umamiEvent = 'Till inlämning';
   const track = (name, data) => { try { window.umami && window.umami.track(name, data); } catch (e) {} };
 
   const yr = document.getElementById('yr');
@@ -112,7 +113,12 @@
       const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
       fields.forEach(n => { if (saved[n] && form[n]) form[n].value = saved[n]; });
     } catch (e) {}
+    // Statistik: första gången besökaren fyller i något räknas som att formuläret har påbörjats.
+    let paborjad = false;
+    const borja = () => { if (!paborjad) { paborjad = true; track('Inlämning påbörjad'); } };
+    form.addEventListener('change', borja);
     form.addEventListener('input', () => {
+      borja();
       try { localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(fields.map(n => [n, form[n].value])))); } catch (e) {}
     });
 
@@ -129,6 +135,7 @@
         const bad = form.querySelector('input:invalid,select:invalid,textarea:invalid');
         errBox.textContent = 'Fyll i de obligatoriska fälten markerade med *.';
         bad && bad.focus();
+        track('Inlämning ofullständig', { falt: bad ? bad.name || bad.id : '–' });
         return;
       }
       const nr = caseNo();
@@ -147,12 +154,19 @@
         } catch (err) {
           errBox.textContent = (err.franServern && err.message ? err.message + ' ' : 'Det gick inte att skicka just nu. ') + 'Försök igen eller ring oss på 026-12 66 66.';
           sb.disabled = false; sb.textContent = 'Skicka in ärendet';
+          track('Inlämning misslyckades', { orsak: err.franServern ? 'server' : 'nätverk' });
           return;
         }
       }
 
       try { localStorage.removeItem(KEY); } catch (e) {}
-      if (ENDPOINT) track('Inlämning', { prioritet: form.prioritet.value || 'standard', leverans: form.leverans.value || '–' });
+      if (ENDPOINT) track('Inlämning', {
+        prioritet: form.prioritet.value || 'standard',
+        leverans: form.leverans.value || '–',
+        enhetstyp: form.enhetstyp.value || '–',
+        omrade: form.omrade.value || '–',
+        foton: files.length,
+      });
       const post = form.leverans.value === 'post';
       const niva = form.prioritet.value || 'standard';
       document.getElementById('d-niva').textContent = NIVA[niva][0];
