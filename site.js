@@ -16,6 +16,20 @@
     const heads = [...t.rows[0].cells].map(c => c.textContent);
     for (const r of t.tBodies[0].rows) [...r.cells].forEach((c, i) => c.dataset.l = heads[i] || '');
   }
+  // Besöksstatistik (Umami, utan cookies). Klistra in webbplatsens id från Umami-panelen; tomt = av.
+  const UMAMI_ID = '';
+  if (UMAMI_ID) {
+    const s = document.createElement('script');
+    s.defer = true;
+    s.src = '/stats/script.js';
+    s.dataset.websiteId = UMAMI_ID;
+    s.dataset.domains = 'www.kretskortsdoktorn.se,kretskortsdoktorn.se';
+    document.head.appendChild(s);
+  }
+  for (const a of document.querySelectorAll('a[href^="tel:"]')) a.dataset.umamiEvent = 'Ringer';
+  for (const a of document.querySelectorAll('a[href^="mailto:"]')) a.dataset.umamiEvent = 'Mejlar';
+  const track = (name, data) => { try { window.umami && window.umami.track(name, data); } catch (e) {} };
+
   const yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 
@@ -138,6 +152,7 @@
       }
 
       try { localStorage.removeItem(KEY); } catch (e) {}
+      if (ENDPOINT) track('Inlämning', { prioritet: form.prioritet.value || 'standard', leverans: form.leverans.value || '–' });
       const post = form.leverans.value === 'post';
       const niva = form.prioritet.value || 'standard';
       document.getElementById('d-niva').textContent = NIVA[niva][0];

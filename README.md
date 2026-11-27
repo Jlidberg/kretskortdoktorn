@@ -47,6 +47,22 @@ cd /opt/kretskortsdoktorn && git pull && cd deploy && docker compose up -d --bui
 Ändringar i HTML, CSS och JS syns direkt efter `git pull`; `--build` behövs bara när `mottagare/` ändrats.
 Loggen över skickade inlämningar: `docker compose logs mottagare`.
 
+### Besöksstatistik (Umami)
+
+Sidan använder samma Umami som mgxtechnology.com (MGX-sajtens compose, panelen på port 3088). Inga cookies
+och ingen data till tredje part, så ingen cookie-banner behövs. Besökarna hämtar skriptet från
+`/stats/script.js` och skickar till `/stats/api/send`. nginx skickar båda vidare till Umami på
+`UMAMI_URL` (standard `http://host.docker.internal:3088`, alltså samma maskin; ändra i `deploy/.env` annars).
+
+Så slås den på:
+
+1. Lägg till webbplatsen `www.kretskortsdoktorn.se` i Umami-panelen och kopiera dess id.
+2. Klistra in id:t i `UMAMI_ID` överst i `site.js` och höj `?v=` på `site.js` i alla fem HTML-filerna.
+3. Pusha, och på servern: `git pull && cd deploy && docker compose up -d` (första gången, för nya nginx-inställningen).
+
+Händelser i Umami: **Inlämning** när formuläret har skickats (med prioritet och leverans), **Ringer** vid klick
+på telefonnumret och **Mejlar** vid klick på e-postadressen.
+
 ## Innan lansering
 
 - [ ] Fyll i villkorssidan (alla gulmarkerade platshållare).
