@@ -9,7 +9,13 @@ services:
       - "8090:80"
     volumes:
       - ..:/usr/share/nginx/html:ro
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # nginx:alpine fyller i ${UMAMI_URL} i mallen när containern startar.
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template:ro
+    environment:
+      # Umami körs i MGX-sajtens compose (port 3088). Ändra i deploy/.env om den ligger någon annanstans.
+      UMAMI_URL: ${UMAMI_URL:-http://host.docker.internal:3088}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on: [mottagare]
   mottagare:
     build: ../mottagare
