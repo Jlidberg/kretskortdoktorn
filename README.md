@@ -60,8 +60,19 @@ Så slås den på:
 2. Klistra in id:t i `UMAMI_ID` överst i `site.js` och höj `?v=` på `site.js` i alla fem HTML-filerna.
 3. Pusha, och på servern: `git pull && cd deploy && docker compose up -d` (första gången, för nya nginx-inställningen).
 
-Händelser i Umami: **Inlämning** när formuläret har skickats (med prioritet och leverans), **Ringer** vid klick
-på telefonnumret och **Mejlar** vid klick på e-postadressen.
+Händelser i Umami:
+
+| Händelse | När | Data |
+| --- | --- | --- |
+| **Till inlämning** | Klick på en länk till `lamna-in.html` | – |
+| **Inlämning påbörjad** | Första gången något fylls i formuläret | – |
+| **Inlämning ofullständig** | Skicka med obligatoriska fält tomma | `falt` (första tomma fältet) |
+| **Inlämning misslyckades** | Mottagaren eller nätet svarade med fel | `orsak` (server/nätverk) |
+| **Inlämning** | Ärendet har skickats | `prioritet`, `leverans`, `enhetstyp`, `omrade`, `foton` |
+| **Ringer** / **Mejlar** | Klick på telefonnummer / e-postadress | – |
+
+Inga namn, telefonnummer eller annat som pekar ut en person skickas till Umami. En tratt i Umami
+(*Funnels*): sidan `/lamna-in` → *Inlämning påbörjad* → *Inlämning*.
 
 ## Innan lansering
 
